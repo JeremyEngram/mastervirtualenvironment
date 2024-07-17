@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Update package list and install required packages
+sudo apt update
+sudo apt install -y python3-venv python3-pip
+
+# Prompt the user for the project directory and virtual environment name
+read -p "Enter the project directory (absolute path): " project_dir
+read -p "Enter the virtual environment name: " venv_name
+
+# Navigate to the project directory
+if [ -d "$project_dir" ]; then
+  cd "$project_dir"
+else
+  echo "Directory does not exist. Please create the directory first."
+  exit 1
+fi
+
+# Check if the virtual environment already exists
+if [ -d "$venv_name" ]; then
+  echo "Virtual environment '$venv_name' already exists. Removing it."
+  rm -rf "$venv_name"
+fi
+
+# Create the virtual environment
+python3 -m venv "$venv_name"
+
+# Activate the virtual environment
+source "$venv_name/bin/activate"
+
+# Confirm activation
+echo "Virtual environment '$venv_name' created and activated."
+
+# Install necessary packages (optional)
+read -p "Do you want to install any packages? (y/n): " install_packages
+if [ "$install_packages" == "y" ]; then
+  read -p "Enter the package names (space-separated): " packages
+  pip install $packages
+fi
+
+# Deactivate the virtual environment
+deactivate
+
+# Confirm deactivation
+echo "Virtual environment '$venv_name' deactivated."
+
+# Exit the script
+exit 0
