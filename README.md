@@ -1,0 +1,1 @@
+Automates the very tedious process of installing, creating, setting up virtual environments while asking for the python modules needed to be installed into the environment. If an environment exists, it removes it starting from scratch ensuring that the pip packages are under one environment.
